@@ -1,87 +1,87 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Navigation from "@/app/components/Navigation";
+import { useState } from 'react';
 
-export default function Home() {
-  const [messages, setMessages] = useState<{id: number; text: string; sender: string}[]>([]);
-  const [inputValue, setInputValue] = useState("");
+export default function Calculator() {
+  const [num1, setNum1] = useState<string>('');
+  const [num2, setNum2] = useState<string>('');
+  const [result, setResult] = useState<number | null>(null);
+  const [error, setError] = useState<string>('');
 
-  const handleSendMessage = () => {
-    if (inputValue.trim() === "") return;
+  const calculateSum = () => {
+    setError('');
+    setResult(null);
     
-    // Add user message
-    const newUserMessage = {
-      id: messages.length + 1,
-      text: inputValue,
-      sender: "user"
-    };
+    const n1 = parseFloat(num1);
+    const n2 = parseFloat(num2);
     
-    setMessages([...messages, newUserMessage]);
-    setInputValue("");
-    
-    // Simulate bot response after a delay
-    setTimeout(() => {
-      const botMessage = {
-        id: messages.length + 2,
-        text: `Echo: ${inputValue}`,
-        sender: "bot"
-      };
-      setMessages(prev => [...prev, botMessage]);
-    }, 1000);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
+    if (isNaN(n1) || isNaN(n2)) {
+      setError('请输入有效的数字');
+      return;
     }
+    
+    const sum = n1 + n2;
+    setResult(sum);
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navigation />
-      
-      {/* Chat Container */}
-      <div className="flex-1 overflow-y-auto p-4 container mx-auto max-w-4xl flex-grow">
-        <div className="space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`p-3 rounded-lg max-w-[80%] ${
-                message.sender === "user"
-                  ? "bg-blue-500 text-white ml-auto"
-                  : "bg-gray-200 text-gray-800"
-              }`}
-            >
-              {message.text}
-            </div>
-          ))}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">加法计算器</h1>
+        <p className="text-gray-600 text-center mb-8">输入两个数字计算它们的和</p>
+        
+        <div className="space-y-6">
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="num1">
+              第一个数字
+            </label>
+            <input
+              id="num1"
+              type="number"
+              value={num1}
+              onChange={(e) => setNum1(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              placeholder="输入第一个数字"
+            />
+          </div>
           
-          {messages.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              <p>Welcome to MyMoltBot1! Start chatting by typing a message below.</p>
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="num2">
+              第二个数字
+            </label>
+            <input
+              id="num2"
+              type="number"
+              value={num2}
+              onChange={(e) => setNum2(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              placeholder="输入第二个数字"
+            />
+          </div>
+          
+          <button
+            onClick={calculateSum}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 ease-in-out transform hover:scale-[1.02]"
+          >
+            计算加法
+          </button>
+          
+          {error && (
+            <div className="text-red-500 text-center py-2">
+              {error}
+            </div>
+          )}
+          
+          {result !== null && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+              <p className="text-gray-700">结果:</p>
+              <p className="text-2xl font-bold text-green-700">{num1} + {num2} = {result}</p>
             </div>
           )}
         </div>
-      </div>
-
-      {/* Input Area */}
-      <div className="border-t p-4 bg-white container mx-auto max-w-4xl mt-auto">
-        <div className="flex space-x-2">
-          <textarea
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyPress}
-            placeholder="Type your message..."
-            className="flex-1 border border-gray-300 rounded-lg p-2 resize-none h-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            onClick={handleSendMessage}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Send
-          </button>
+        
+        <div className="mt-8 text-center text-gray-500 text-sm">
+          <p>一个简单的加法计算器</p>
         </div>
       </div>
     </div>

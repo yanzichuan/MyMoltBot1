@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MyMoltBot1",
-  description: "A Next.js chat application with TodoList functionality",
+  title: "加法计算器",
+  description: "一个简单的加法计算器应用",
 };
 
 export default function RootLayout({
@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-gray-50`}>{children}</body>
+    <html lang="zh-CN">
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
