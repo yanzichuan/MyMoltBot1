@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Production builds
+.next/
+
+# Environment variables
+.env*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage directory used by jest
+coverage/
